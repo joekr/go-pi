@@ -60,7 +60,6 @@ func Get(status chan<- string, user string) (rep string, err error){
 }
 
 func resetLeds(robot *gobot.Robot) {
-	fmt.Println("reset")
 	robot.Device("dnd").(*gpio.LedDriver).Off()
 	robot.Device("away").(*gpio.LedDriver).Off()
 	robot.Device("chat").(*gpio.LedDriver).Off()
@@ -109,10 +108,6 @@ func gobotFunc(status <-chan string) {
 			})
 		}
 
-
-		//gobot.Every(10*time.Second, func() {
-		//	setStatus(gbot.Robot("hipChatBot"),status)
-		//})
 	}
 
 	robot := gobot.NewRobot("hipChatBot",
@@ -130,7 +125,7 @@ func statusFetcher(statusChannel chan<- string, user string){
 
 	Get(statusChannel, user)	
 
-	c := time.Tick(1 * time.Minute)
+	c := time.Tick(20 * time.Second)
 	for now := range c {
 		fmt.Println(now)
 		Get(statusChannel, user)
